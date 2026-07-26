@@ -11,7 +11,7 @@ public class SinglyLinkedListNodeTests
         const int value = 10;
 
         // Act
-        var node = new SinglyLinkedListNode<int>(value);
+        SinglyLinkedListNode<int> node = new SinglyLinkedListNode<int>(value);
 
         // Assert
         Assert.Equal(value, node.Value);
@@ -24,7 +24,7 @@ public class SinglyLinkedListNodeTests
         const int value = 10;
 
         // Act
-        var node = new SinglyLinkedListNode<int>(value);
+        SinglyLinkedListNode<int> node = new SinglyLinkedListNode<int>(value);
 
         // Assert
         Assert.Null(node.Next);
@@ -34,8 +34,8 @@ public class SinglyLinkedListNodeTests
     public void Next_WhenAssigned_PointsToNextNode()
     {
         // Arrange
-        var firstNode = new SinglyLinkedListNode<int>(10);
-        var secondNode = new SinglyLinkedListNode<int>(20);
+        SinglyLinkedListNode<int> firstNode = new SinglyLinkedListNode<int>(10);
+        SinglyLinkedListNode<int> secondNode = new SinglyLinkedListNode<int>(20);
 
         // Act
         firstNode.Next = secondNode;

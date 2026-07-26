@@ -9,7 +9,7 @@ public class SinglyLinkedListTests
     public void Constructor_WhenListIsCreated_SetsCountToZero()
     {
         // Arrange & Act
-        SinglyLinkedList<int> list = new SinglyLinkedList<int>();
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
 
         // Assert
         Assert.Equal(0, list.Count);
@@ -19,7 +19,7 @@ public class SinglyLinkedListTests
     public void Constructor_WhenListIsCreated_CreatesEmptyList()
     {
         // Arrange & Act
-        SinglyLinkedList<int> list = new SinglyLinkedList<int>();
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
 
         // Assert
         Assert.True(list.IsEmpty());
@@ -29,10 +29,10 @@ public class SinglyLinkedListTests
     public void Append_WhenValueIsAdded_IncreasesCount()
     {
         // Arrange
-        SinglyLinkedList<int> list = new SinglyLinkedList<int>();
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
 
         // Act
-        list.Append(10);
+        list.AddToTail(10);
 
         // Assert
         Assert.Equal(1, list.Count);
@@ -42,10 +42,10 @@ public class SinglyLinkedListTests
     public void Append_WhenValueIsAdded_ListIsNoLongerEmpty()
     {
         // Arrange
-        SinglyLinkedList<int> list = new SinglyLinkedList<int>();
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
 
         // Act
-        list.Append(10);
+        list.AddToTail(10);
 
         // Assert
         Assert.False(list.IsEmpty());
@@ -55,10 +55,10 @@ public class SinglyLinkedListTests
     public void Append_WhenFirstValueIsAdded_SetsHeadAndTailToSameNode()
     {
         // Arrange
-        SinglyLinkedList<int> list = new SinglyLinkedList<int>();
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
 
         // Act
-        list.Append(10);
+        list.AddToTail(10);
 
         // Assert
         SinglyLinkedListNode<int>? head = GetPrivateNode(list, "_head");
@@ -74,12 +74,12 @@ public class SinglyLinkedListTests
     public void Append_WhenMultipleValuesAreAdded_LinksNodesInAppendOrder()
     {
         // Arrange
-        SinglyLinkedList<int> list = new SinglyLinkedList<int>();
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
 
         // Act
-        list.Append(10);
-        list.Append(20);
-        list.Append(30);
+        list.AddToTail(10);
+        list.AddToTail(20);
+        list.AddToTail(30);
 
         // Assert
         SinglyLinkedListNode<int>? head = GetPrivateNode(list, "_head");
@@ -96,10 +96,10 @@ public class SinglyLinkedListTests
     }
 
     private static SinglyLinkedListNode<T>? GetPrivateNode<T>(
-        SinglyLinkedList<T> list,
+        CustomLinkedList<T> list,
         string fieldName)
     {
-        FieldInfo? field = typeof(SinglyLinkedList<T>).GetField(
+        FieldInfo? field = typeof(CustomLinkedList<T>).GetField(
             fieldName,
             BindingFlags.Instance | BindingFlags.NonPublic);
 
