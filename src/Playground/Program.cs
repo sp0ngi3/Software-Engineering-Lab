@@ -23,9 +23,12 @@ static void RunLinkedList()
     int testHeadBeforeInserting = linkedList.Get(0);
     linkedList.AddToHead(99);
     int testHeadAfterInserting= linkedList.Get(0);
-
+    int getHeadBeforeReversing = linkedList.GetHead();
+    int getTailBeforeReversing = linkedList.GetTail();
+    linkedList.Reverse();
+    int getHeadAfterReversing = linkedList.GetHead();
+    int getTailAfterReversing = linkedList.GetTail();
     Console.ReadLine();
-
     if (Debugger.IsAttached)
     {
         Debugger.Break();
