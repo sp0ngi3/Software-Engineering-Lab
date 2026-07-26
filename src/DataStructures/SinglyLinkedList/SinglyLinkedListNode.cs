@@ -1,8 +1,12 @@
 ﻿namespace DataStructures.SinglyLinkedList
 {
     /// <summary>
-    /// Represents a node in a singly linked list.
+    /// Represents one node in a singly linked list.
     /// </summary>
+    /// <remarks>
+    /// A node stores a value and a reference to the next node.
+    /// The last node in a singly linked list has <see cref="Next" /> set to null.
+    /// </remarks>
     /// <typeparam name="T">The type of elements in the singly linked list.</typeparam>
     public class SinglyLinkedListNode<T>
     {

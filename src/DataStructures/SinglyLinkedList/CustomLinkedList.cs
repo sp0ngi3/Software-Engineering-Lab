@@ -1,8 +1,13 @@
 ﻿namespace DataStructures.SinglyLinkedList
 {
     /// <summary>
-    /// Represents a singly linked list data structure.
+    /// Represents a custom singly linked list implementation.
     /// </summary>
+    /// <remarks>
+    /// This implementation stores references to both the first node and the last node.
+    /// The list is still singly linked because each node only stores a reference to the next node.
+    /// The tail reference makes appending to the end an O(1) operation.
+    /// </remarks>
     /// <typeparam name="T">The type of elements in the singly linked list.</typeparam>
     public class CustomLinkedList<T>
     {
@@ -22,7 +27,7 @@
         public int Count { get; private set; }
 
         /// <summary>
-        /// Creates a new instance of the SinglyLinkedList class with an initial value.
+        /// Creates an empty custom linked list.
         /// </summary>
         public CustomLinkedList()
         {
@@ -293,7 +298,7 @@
         /// <summary>
         /// Removes the last element from the singly linked list.
         /// Runs in O(n) time complexity because the list must be traversed
-        /// to find the node located before the tail. Here would be good to implement doubly linked lsit in the future.
+        /// to find the node located before the tail. A doubly linked list could make this operation O(1).
         /// </summary>
         /// <exception cref="InvalidOperationException">
         /// Thrown when the list is empty.

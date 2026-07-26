@@ -8,21 +8,19 @@ The purpose of this repository is to learn by building things from scratch, test
 
 - Data structures and algorithms
 
-
 ## Repository Structure
 
 ```text
 software-engineering-lab/
-├── src/
-│   ├── DataStructures/
-│   └── Playground/
-├── tests/
-│   └── DataStructures.Tests/
-├── README.md
-└── SoftwareEngineeringLab.slnx
+|-- src/
+|   |-- DataStructures/
+|   |   `-- SinglyLinkedList/
+|   `-- Playground/
+|-- tests/
+|   `-- DataStructures.Tests/
+|-- README.md
+`-- SoftwareEngineeringLab.slnx
 ```
-
-
 
 ## Projects
 
@@ -30,14 +28,15 @@ software-engineering-lab/
 
 Contains implementations of data structures written for learning purposes. The goal is to implement core behavior manually instead of relying on built-in equivalents.
 
+Current notes:
+
+- [Custom linked list](src/DataStructures/SinglyLinkedList/README.md)
 
 Each exercise can include implementation notes, edge cases, complexity analysis, and tests.
 
 ### Playground
 
 A console application used for manual experiments and debugging.
-
-
 
 ## Learning Approach
 
@@ -49,5 +48,3 @@ For each topic, the general process is:
 4. Add tests for normal cases and edge cases.
 5. Refactor after the behavior is understood.
 6. Write down useful observations when needed.
-
-
