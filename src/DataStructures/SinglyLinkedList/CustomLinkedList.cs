@@ -9,7 +9,7 @@
     /// The tail reference makes appending to the end an O(1) operation.
     /// </remarks>
     /// <typeparam name="T">The type of elements in the singly linked list.</typeparam>
-    public class CustomLinkedList<T>
+    public class CustomLinkedList<T> : System.Collections.Generic.IEnumerable<T>
     {
         /// <summary>
         /// Reference to the start of the list.
@@ -372,6 +372,32 @@
         }
 
         /// <summary>
+        /// Removes all elements from the singly linked list.
+        /// Runs in O(1) time complexity because it only clears the head and tail references.
+        /// </summary>
+        public void Clear()
+        {
+            /*
+             * Algorithm:
+             * 1. Remove the reference to the first node.
+             * 2. Remove the reference to the last node.
+             * 3. Reset the number of elements in the list.
+             *
+             * After these references are cleared, the garbage collector can remove
+             * the old nodes if nothing else in the program references them.
+             */
+
+            // Step 1: Remove the reference to the first node.
+            _head = null;
+
+            // Step 2: Remove the reference to the last node.
+            _tail = null;
+
+            // Step 3: Reset the number of elements in the list.
+            Count = 0;
+        }
+
+        /// <summary>
         /// Returns the value stored in the first node of the singly linked list.
         /// Runs in O(1) time complexity because the list stores a direct reference
         /// to the head node.
@@ -432,6 +458,117 @@
         }
 
         /// <summary>
+        /// Checks whether the singly linked list contains a cycle.
+        /// Runs in O(n) time complexity and O(1) space complexity.
+        /// </summary>
+        /// <returns>True if the list contains a cycle, otherwise false.</returns>
+        public bool HasCycle()
+        {
+            /*
+             * Algorithm:
+             * 1. Create two references that both start at the head node.
+             * 2. Move the slow reference one node at a time.
+             * 3. Move the fast reference two nodes at a time.
+             * 4. If both references point to the same node, the list has a cycle.
+             * 5. If the fast reference reaches null, the list has an end and does not have a cycle.
+             */
+
+            // Step 1: Start both references at the first node.
+            SinglyLinkedListNode<T>? slowNode = _head;
+            SinglyLinkedListNode<T>? fastNode = _head;
+
+            // Step 2-5: Move through the list using the fast and slow pointer technique.
+            while (fastNode is not null && fastNode.Next is not null)
+            {
+                // Move slowNode by one node.
+                slowNode = slowNode!.Next;
+
+                // Move fastNode by two nodes.
+                fastNode = fastNode.Next.Next;
+
+                // If both references point to the same node, the fast reference
+                // has caught the slow reference inside a cycle.
+                if (ReferenceEquals(slowNode, fastNode))
+                {
+                    return true;
+                }
+            }
+
+            // If fastNode reached null, the list has a normal end.
+            return false;
+        }
+
+        /// <summary>
+        /// Copies all values from the singly linked list into a new array.
+        /// Runs in O(n) time complexity because every node must be visited.
+        /// Runs in O(n) space complexity because a new array is created.
+        /// </summary>
+        /// <returns>An array containing all values in the same order as the list.</returns>
+        public T[] ToArray()
+        {
+            /*
+             * Algorithm:
+             * 1. Create a new array with the same size as the linked list.
+             * 2. Start traversing the list from the head node.
+             * 3. Copy each node value into the array.
+             * 4. Move to the next node until all list elements are copied.
+             * 5. Return the created array.
+             */
+
+            // Step 1: Create an array that can store all list values.
+            T[] values = new T[Count];
+
+            // Step 2: Start traversing the list from the first node.
+            SinglyLinkedListNode<T>? currentNode = _head;
+
+            // Step 3-4: Copy each node value into the array.
+            for (int index = 0; index < Count; index++)
+            {
+                values[index] = currentNode!.Value;
+                currentNode = currentNode.Next;
+            }
+
+            // Step 5: Return the created array.
+            return values;
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the singly linked list.
+        /// Runs in O(n) time complexity when the whole list is enumerated.
+        /// </summary>
+        /// <returns>An enumerator for the values stored in the list.</returns>
+        public System.Collections.Generic.IEnumerator<T> GetEnumerator()
+        {
+            /*
+             * Algorithm:
+             * 1. Start traversing the list from the head node.
+             * 2. Return the value of the current node.
+             * 3. Move to the next node.
+             * 4. Continue until Count elements have been returned.
+             */
+
+            // Step 1: Start traversing the list from the first node.
+            SinglyLinkedListNode<T>? currentNode = _head;
+
+            // Step 2-4: Return each value and move to the next node.
+            for (int index = 0; index < Count; index++)
+            {
+                yield return currentNode!.Value;
+                currentNode = currentNode.Next;
+            }
+        }
+
+        /// <summary>
+        /// Returns a non-generic enumerator that iterates through the singly linked list.
+        /// </summary>
+        /// <returns>An enumerator for the values stored in the list.</returns>
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+
+        /// <summary>
         /// Reverses the order of all nodes in the singly linked list.
         /// Runs in O(n) time complexity because every node must be visited.
         /// Runs in O(1) space complexity because only a few additional
@@ -490,8 +627,8 @@
             _head = previousNode;
         }
 
+
     }
 }
 
 
-//TODO: Detecting cycle, 

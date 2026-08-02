@@ -62,6 +62,10 @@ This is why access by index is `O(n)`.
 | `AddAtIndex(index, value)` | `O(n)` | `O(1)` | Traverses to the node before the index, except for head/tail cases. |
 | `DeleteAtIndex(index)` | `O(n)` | `O(1)` | Traverses to the node before the index, except for deleting the head. |
 | `Pop()` | `O(n)` | `O(1)` | Must find the node before `_tail` in a singly linked list. |
+| `Clear()` | `O(1)` | `O(1)` | Clears `_head`, `_tail`, and `Count`. The old nodes can be collected by the GC. |
+| `ToArray()` | `O(n)` | `O(n)` | Copies every value into a new array. |
+| `foreach` / `IEnumerable<T>` | `O(n)` | `O(1)` | Iterates through the nodes from `_head` to the end. |
+| `HasCycle()` | `O(n)` | `O(1)` | Uses the slow and fast pointer technique. |
 | `Reverse()` | `O(n)` | `O(1)` | Visits every node and rewires `Next` references. |
 
 Important detail: insertion or deletion can be `O(1)` if a reference to the correct node is already available. If the list first needs to search or traverse to that position, the full operation becomes `O(n)`.
@@ -128,14 +132,18 @@ Current public operations:
 - `GetHead`
 - `GetTail`
 - `Pop`
+- `Clear`
+- `ToArray`
+- `IEnumerable<T>`
+- `HasCycle`
 - `Reverse`
 - `IsEmpty`
 
 Future ideas:
 
 - Add `Contains`
-- Add `Clear`
-- Add `ToArray`
-- Add `IEnumerable<T>` support
-- Detect cycles
-
+- Add `IndexOf`
+- Add removing by value
+- Add benchmarks
+- Compare with `System.Collections.Generic.LinkedList<T>`
+- Implement a doubly linked list

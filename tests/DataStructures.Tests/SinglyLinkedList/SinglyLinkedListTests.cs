@@ -1,3 +1,4 @@
+using System.Reflection;
 using DataStructures.SinglyLinkedList;
 
 namespace DataStructures.Tests.SinglyLinkedList;
@@ -401,6 +402,141 @@ public class SinglyLinkedListTests
     }
 
     [Fact]
+    public void Clear_WhenListHasValues_RemovesAllValues()
+    {
+        // Arrange
+        CustomLinkedList<int> list = CreateList(10, 20, 30);
+
+        // Act
+        list.Clear();
+
+        // Assert
+        Assert.Equal(0, list.Count);
+        Assert.True(list.IsEmpty());
+        Assert.Empty(list.ToArray());
+        Assert.Throws<InvalidOperationException>(() => list.GetHead());
+        Assert.Throws<InvalidOperationException>(() => list.GetTail());
+    }
+
+    [Fact]
+    public void Clear_WhenListIsEmpty_KeepsListEmpty()
+    {
+        // Arrange
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
+
+        // Act
+        list.Clear();
+
+        // Assert
+        Assert.Equal(0, list.Count);
+        Assert.True(list.IsEmpty());
+        Assert.Empty(list.ToArray());
+    }
+
+    [Fact]
+    public void ToArray_WhenListHasValues_ReturnsValuesInListOrder()
+    {
+        // Arrange
+        CustomLinkedList<int> list = CreateList(10, 20, 30);
+
+        // Act
+        int[] values = list.ToArray();
+
+        // Assert
+        Assert.Equal(new[] { 10, 20, 30 }, values);
+    }
+
+    [Fact]
+    public void ToArray_WhenListIsEmpty_ReturnsEmptyArray()
+    {
+        // Arrange
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
+
+        // Act
+        int[] values = list.ToArray();
+
+        // Assert
+        Assert.Empty(values);
+    }
+
+    [Fact]
+    public void GetEnumerator_WhenListHasValues_IteratesInListOrder()
+    {
+        // Arrange
+        CustomLinkedList<int> list = CreateList(10, 20, 30);
+        List<int> values = new List<int>();
+
+        // Act
+        foreach (int value in list)
+        {
+            values.Add(value);
+        }
+
+        // Assert
+        Assert.Equal(new[] { 10, 20, 30 }, values);
+    }
+
+    [Fact]
+    public void GetEnumerator_WhenUsedAsNonGenericEnumerable_IteratesInListOrder()
+    {
+        // Arrange
+        CustomLinkedList<int> list = CreateList(10, 20, 30);
+        System.Collections.IEnumerable enumerable = list;
+        List<object> values = new List<object>();
+
+        // Act
+        foreach (object value in enumerable)
+        {
+            values.Add(value);
+        }
+
+        // Assert
+        Assert.Equal(new object[] { 10, 20, 30 }, values);
+    }
+
+    [Fact]
+    public void HasCycle_WhenListIsEmpty_ReturnsFalse()
+    {
+        // Arrange
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
+
+        // Act
+        bool hasCycle = list.HasCycle();
+
+        // Assert
+        Assert.False(hasCycle);
+    }
+
+    [Fact]
+    public void HasCycle_WhenListHasNoCycle_ReturnsFalse()
+    {
+        // Arrange
+        CustomLinkedList<int> list = CreateList(10, 20, 30);
+
+        // Act
+        bool hasCycle = list.HasCycle();
+
+        // Assert
+        Assert.False(hasCycle);
+    }
+
+    [Fact]
+    public void HasCycle_WhenTailPointsBackToExistingNode_ReturnsTrue()
+    {
+        // Arrange
+        CustomLinkedList<int> list = CreateList(10, 20, 30);
+        SinglyLinkedListNode<int>? head = GetPrivateNode(list, "_head");
+        SinglyLinkedListNode<int>? tail = GetPrivateNode(list, "_tail");
+        tail!.Next = head!.Next;
+
+        // Act
+        bool hasCycle = list.HasCycle();
+
+        // Assert
+        Assert.True(hasCycle);
+    }
+
+    [Fact]
     public void Reverse_WhenListHasMultipleValues_ReversesOrderAndUpdatesHeadAndTail()
     {
         // Arrange
@@ -491,5 +627,16 @@ public class SinglyLinkedListTests
         {
             Assert.Equal(expectedValues[index], list.Get(index));
         }
+    }
+
+    private static SinglyLinkedListNode<T>? GetPrivateNode<T>(
+        CustomLinkedList<T> list,
+        string fieldName)
+    {
+        FieldInfo? field = typeof(CustomLinkedList<T>).GetField(
+            fieldName,
+            BindingFlags.Instance | BindingFlags.NonPublic);
+
+        return (SinglyLinkedListNode<T>?)field!.GetValue(list);
     }
 }
