@@ -57,10 +57,12 @@ The capacity never goes below the initial capacity of `8`.
 | `Capacity` | `O(1)` | `O(1)` | Returns the size of the internal array. |
 | `Get(index)` | `O(1)` | `O(1)` | Direct access by index. |
 | `Insert(value, index)` | `O(1)` | `O(1)` | Currently replaces an existing value at index. |
-| `Add(value)` | * `O(1)` | `O(1)` | Adds at the end when there is free capacity. |
+| `Add(value)` | Usually `O(1)` | `O(1)` | Adds at the end when there is free capacity. |
 | `Add(value)` with resize | `O(n)` | `O(n)` | Creates a bigger array and copies existing values. |
 | `RemoveAt(index)` | `O(n)` | `O(1)` | Shifts values after the removed index to the left. |
-| `RemoveLast()` | * `O(1)` | `O(1)` | Removes the last value without shifting. |
+| `RemoveLast()` | Usually `O(1)` | `O(1)` | Removes the last value without shifting. |
+| `ToArray()` | `O(n)` | `O(n)` | Copies only stored values into a new array. |
+| `foreach` / `IEnumerable<T>` | `O(n)` | `O(1)` | Iterates only through stored values, not unused capacity. |
 | Shrinking | `O(n)` | `O(n)` | Creates a smaller array and copies existing values. |
 | `Resize()` | `O(n)` | `O(n)` | Private helper used when capacity is full. |
 
@@ -97,9 +99,12 @@ Current public operations:
 - `Insert`
 - `RemoveAt`
 - `RemoveLast`
+- `ToArray`
+- `IEnumerable<T>`
 - `Count`
 - `Capacity`
 
 Important naming note: current `Insert` works more like replacing a value at an existing index. In `List<T>`, `Insert` usually means adding a new value at an index and shifting the following values to the right. A future improvement could be to rename the current method to `Set` and implement a real `InsertAt`.
 
+Because this structure now supports `IEnumerable<T>`, it can be used by algorithms that work on sequences. For example, `CustomDynamicArray<int>` can be passed into Kadane's algorithm.
 

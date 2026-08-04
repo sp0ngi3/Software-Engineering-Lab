@@ -1,10 +1,12 @@
+using System.Collections;
+
 namespace DataStructures.CustomDynamicArray
 {
     /// <summary>
     /// Represents a custom dynamic array implementation.
     /// </summary>
     /// <typeparam name="T">The type of elements stored in the dynamic array.</typeparam>
-    public class CustomDynamicArray<T>
+    public class CustomDynamicArray<T> : IEnumerable<T>
     {
         /// <summary>
         /// Initial number of values that can be stored before the first resize.
@@ -208,6 +210,65 @@ namespace DataStructures.CustomDynamicArray
 
             // Step 4: Shrink the internal array if too much capacity is unused.
             ShrinkIfNeeded();
+        }
+
+        /// <summary>
+        /// Copies all stored values from the dynamic array into a new array.
+        /// Runs in O(n) time complexity because every stored value must be copied.
+        /// Runs in O(n) space complexity because a new array is created.
+        /// </summary>
+        /// <returns>An array containing all stored values in the same order.</returns>
+        public T[] ToArray()
+        {
+            /*
+             * Algorithm:
+             * 1. Create a new array with the same size as the number of stored values.
+             * 2. Copy every stored value from the internal array into the new array.
+             * 3. Return the new array.
+             */
+
+            // Step 1: Create a new array that stores only real values, not empty capacity.
+            T[] values = new T[_size];
+
+            // Step 2: Copy all stored values into the new array.
+            for (int i = 0; i < _size; i++)
+            {
+                values[i] = _arr[i];
+            }
+
+            // Step 3: Return the created array.
+            return values;
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the stored values.
+        /// Runs in O(n) time complexity when the whole dynamic array is enumerated.
+        /// </summary>
+        /// <returns>An enumerator for the stored values.</returns>
+        public IEnumerator<T> GetEnumerator()
+        {
+            /*
+             * Algorithm:
+             * 1. Start from the first stored index.
+             * 2. Return the current value.
+             * 3. Move to the next stored index.
+             * 4. Continue until all stored values are returned.
+             */
+
+            // Step 1-4: Return only stored values, not unused capacity.
+            for (int i = 0; i < _size; i++)
+            {
+                yield return _arr[i];
+            }
+        }
+
+        /// <summary>
+        /// Returns a non-generic enumerator that iterates through the stored values.
+        /// </summary>
+        /// <returns>An enumerator for the stored values.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         /// <summary>

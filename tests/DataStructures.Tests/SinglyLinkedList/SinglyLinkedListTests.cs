@@ -1,10 +1,19 @@
+using System.Diagnostics;
 using System.Reflection;
 using DataStructures.SinglyLinkedList;
+using Xunit.Abstractions;
 
 namespace DataStructures.Tests.SinglyLinkedList;
 
 public class SinglyLinkedListTests
 {
+    private readonly ITestOutputHelper _output;
+
+    public SinglyLinkedListTests(ITestOutputHelper output)
+    {
+        _output = output;
+    }
+
     [Fact]
     public void Constructor_WhenListIsCreated_SetsCountToZero()
     {
@@ -605,6 +614,82 @@ public class SinglyLinkedListTests
         Assert.Equal("head", list.Get(2));
     }
 
+    [Fact]
+    public void LearningContract_WhenListIsReimplemented_ShouldPreserveCoreBehavior()
+    {
+        // Arrange
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
+
+        // Act
+        list.AddToTail(10);
+        list.AddToTail(20);
+        list.AddToTail(40);
+        list.AddToHead(5);
+        list.AddAtIndex(3, 30);
+        list.DeleteAtIndex(0);
+        list.Pop();
+        list.Reverse();
+
+        // Assert
+        Assert.Equal(3, list.Count);
+        Assert.False(list.IsEmpty());
+        Assert.Equal(30, list.GetHead());
+        Assert.Equal(10, list.GetTail());
+        Assert.False(list.HasCycle());
+        Assert.Equal(new[] { 30, 20, 10 }, list.ToArray());
+    }
+
+    [Fact]
+    public void Timing_AddToTailAndEnumerateManyValues_WritesElapsedTime()
+    {
+        // Arrange
+        const int numberOfValues = 10_000;
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
+        int sum = 0;
+
+        // Act
+        TimeSpan elapsed = Measure(() =>
+        {
+            for (int value = 0; value < numberOfValues; value++)
+            {
+                list.AddToTail(value);
+            }
+
+            foreach (int value in list)
+            {
+                sum += value;
+            }
+        });
+
+        // Assert
+        Assert.Equal(numberOfValues, list.Count);
+        Assert.Equal(numberOfValues - 1, list.GetTail());
+        Assert.Equal(49_995_000, sum);
+        _output.WriteLine($"CustomLinkedList AddToTail + foreach {numberOfValues} values: {elapsed.TotalMilliseconds:F3} ms");
+    }
+
+    [Fact]
+    public void Timing_ReverseManyValues_WritesElapsedTime()
+    {
+        // Arrange
+        const int numberOfValues = 10_000;
+        CustomLinkedList<int> list = new CustomLinkedList<int>();
+
+        for (int value = 0; value < numberOfValues; value++)
+        {
+            list.AddToTail(value);
+        }
+
+        // Act
+        TimeSpan elapsed = Measure(() => list.Reverse());
+
+        // Assert
+        Assert.Equal(numberOfValues, list.Count);
+        Assert.Equal(numberOfValues - 1, list.GetHead());
+        Assert.Equal(0, list.GetTail());
+        _output.WriteLine($"CustomLinkedList Reverse {numberOfValues} values: {elapsed.TotalMilliseconds:F3} ms");
+    }
+
     private static CustomLinkedList<T> CreateList<T>(params T[] values)
     {
         CustomLinkedList<T> list = new CustomLinkedList<T>();
@@ -638,5 +723,15 @@ public class SinglyLinkedListTests
             BindingFlags.Instance | BindingFlags.NonPublic);
 
         return (SinglyLinkedListNode<T>?)field!.GetValue(list);
+    }
+
+    private static TimeSpan Measure(Action act)
+    {
+        Stopwatch stopwatch = Stopwatch.StartNew();
+
+        act();
+
+        stopwatch.Stop();
+        return stopwatch.Elapsed;
     }
 }

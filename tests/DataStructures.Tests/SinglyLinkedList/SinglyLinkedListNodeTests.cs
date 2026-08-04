@@ -44,4 +44,22 @@ public class SinglyLinkedListNodeTests
         Assert.Same(secondNode, firstNode.Next);
         Assert.Equal(20, firstNode.Next.Value);
     }
+
+    [Fact]
+    public void LearningContract_WhenNodeIsReimplemented_ShouldStoreValueAndNextReference()
+    {
+        // Arrange
+        SinglyLinkedListNode<string> firstNode = new SinglyLinkedListNode<string>("first");
+        SinglyLinkedListNode<string> secondNode = new SinglyLinkedListNode<string>("second");
+
+        // Act
+        firstNode.Value = "updated";
+        firstNode.Next = secondNode;
+
+        // Assert
+        Assert.Equal("updated", firstNode.Value);
+        Assert.Same(secondNode, firstNode.Next);
+        Assert.Equal("second", firstNode.Next.Value);
+        Assert.Null(secondNode.Next);
+    }
 }

@@ -1,3 +1,4 @@
+using DataStructures.Algorithms.Arrays;
 using DataStructures.CustomDynamicArray;
 using DataStructures.SinglyLinkedList;
 using System.Diagnostics;
@@ -78,6 +79,21 @@ static void RunCustomDynamicArray()
 
     int countAfterShrinking = dynamicArray.Count;
     int capacityAfterShrinking = dynamicArray.Capacity;
+    int[] valuesAfterShrinking = dynamicArray.ToArray();
+
+    CustomDynamicArray<int> kadaneInput = new();
+    kadaneInput.Add(-2);
+    kadaneInput.Add(1);
+    kadaneInput.Add(-3);
+    kadaneInput.Add(4);
+    kadaneInput.Add(-1);
+    kadaneInput.Add(2);
+    kadaneInput.Add(1);
+    kadaneInput.Add(-5);
+    kadaneInput.Add(4);
+
+    int maxSubarraySum = KadaneAlgorithm.MaxSubarraySum(kadaneInput);
+    int[] maxSubarrayRange = KadaneAlgorithm.FindMaxSubarrayRange(kadaneInput);
 
     Console.WriteLine($"Count after adding: {countAfterAdding}");
     Console.WriteLine($"Capacity after adding: {capacityAfterAdding}");
@@ -87,6 +103,9 @@ static void RunCustomDynamicArray()
     Console.WriteLine($"Capacity after growing: {capacityAfterGrowing}");
     Console.WriteLine($"Count after shrinking: {countAfterShrinking}");
     Console.WriteLine($"Capacity after shrinking: {capacityAfterShrinking}");
+    Console.WriteLine($"Values after shrinking: {string.Join(", ", valuesAfterShrinking)}");
+    Console.WriteLine($"Kadane max subarray sum: {maxSubarraySum}");
+    Console.WriteLine($"Kadane max subarray range: {maxSubarrayRange[0]} - {maxSubarrayRange[1]}");
 
     Console.ReadLine();
     if (Debugger.IsAttached)

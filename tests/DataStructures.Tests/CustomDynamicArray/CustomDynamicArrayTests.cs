@@ -1,10 +1,19 @@
+using System.Diagnostics;
 using System.Reflection;
 using DataStructures.CustomDynamicArray;
+using Xunit.Abstractions;
 
 namespace DataStructures.Tests.CustomDynamicArray;
 
 public class CustomDynamicArrayTests
 {
+    private readonly ITestOutputHelper _output;
+
+    public CustomDynamicArrayTests(ITestOutputHelper output)
+    {
+        _output = output;
+    }
+
     [Fact]
     public void Constructor_WhenArrayIsCreated_SetsInitialSizeToZero()
     {
@@ -204,6 +213,81 @@ public class CustomDynamicArrayTests
     }
 
     [Fact]
+    public void ToArray_WhenArrayHasValues_ReturnsStoredValuesInOrder()
+    {
+        // Arrange
+        CustomDynamicArray<int> array = CreateArray(10, 20, 30);
+
+        // Act
+        int[] values = array.ToArray();
+
+        // Assert
+        Assert.Equal(new[] { 10, 20, 30 }, values);
+    }
+
+    [Fact]
+    public void ToArray_WhenArrayHasUnusedCapacity_ReturnsOnlyStoredValues()
+    {
+        // Arrange
+        CustomDynamicArray<int> array = CreateArray(10, 20, 30);
+
+        // Act
+        int[] values = array.ToArray();
+
+        // Assert
+        Assert.Equal(3, values.Length);
+        Assert.Equal(new[] { 10, 20, 30 }, values);
+    }
+
+    [Fact]
+    public void ToArray_WhenArrayIsEmpty_ReturnsEmptyArray()
+    {
+        // Arrange
+        CustomDynamicArray<int> array = new CustomDynamicArray<int>();
+
+        // Act
+        int[] values = array.ToArray();
+
+        // Assert
+        Assert.Empty(values);
+    }
+
+    [Fact]
+    public void GetEnumerator_WhenArrayHasValues_IteratesThroughStoredValuesInOrder()
+    {
+        // Arrange
+        CustomDynamicArray<int> array = CreateArray(10, 20, 30);
+        List<int> values = new List<int>();
+
+        // Act
+        foreach (int value in array)
+        {
+            values.Add(value);
+        }
+
+        // Assert
+        Assert.Equal(new[] { 10, 20, 30 }, values);
+    }
+
+    [Fact]
+    public void GetEnumerator_WhenUsedAsNonGenericEnumerable_IteratesThroughStoredValuesInOrder()
+    {
+        // Arrange
+        CustomDynamicArray<int> array = CreateArray(10, 20, 30);
+        System.Collections.IEnumerable enumerable = array;
+        List<object> values = new List<object>();
+
+        // Act
+        foreach (object value in enumerable)
+        {
+            values.Add(value);
+        }
+
+        // Assert
+        Assert.Equal(new object[] { 10, 20, 30 }, values);
+    }
+
+    [Fact]
     public void RemoveAt_WhenRemovingFirstValue_ShiftsValuesToLeft()
     {
         // Arrange
@@ -365,6 +449,88 @@ public class CustomDynamicArrayTests
         Assert.Equal(17, array.Get(2));
     }
 
+    [Fact]
+    public void LearningContract_WhenArrayIsReimplemented_ShouldPreserveCoreBehavior()
+    {
+        // Arrange
+        CustomDynamicArray<int> array = new CustomDynamicArray<int>();
+
+        // Act
+        for (int value = 1; value <= 20; value++)
+        {
+            array.Add(value);
+        }
+
+        array.Insert(100, 0);
+        array.Insert(200, 10);
+        array.RemoveAt(1);
+        array.RemoveLast();
+
+        while (array.Count > 5)
+        {
+            array.RemoveLast();
+        }
+
+        // Assert
+        Assert.Equal(5, array.Count);
+        Assert.True(array.Capacity >= array.Count);
+        Assert.True(array.Capacity >= 8);
+        Assert.Equal(new[] { 100, 3, 4, 5, 6 }, array.ToArray());
+    }
+
+    [Fact]
+    public void Timing_AddAndReadManyValues_WritesElapsedTime()
+    {
+        // Arrange
+        const int numberOfValues = 10_000;
+        CustomDynamicArray<int> array = new CustomDynamicArray<int>();
+
+        // Act
+        TimeSpan elapsed = Measure(() =>
+        {
+            for (int value = 0; value < numberOfValues; value++)
+            {
+                array.Add(value);
+            }
+
+            for (int index = 0; index < numberOfValues; index++)
+            {
+                Assert.Equal(index, array.Get(index));
+            }
+        });
+
+        // Assert
+        Assert.Equal(numberOfValues, array.Count);
+        _output.WriteLine($"CustomDynamicArray Add + Get {numberOfValues} values: {elapsed.TotalMilliseconds:F3} ms");
+    }
+
+    [Fact]
+    public void Timing_RemoveLastManyValues_WritesElapsedTime()
+    {
+        // Arrange
+        const int numberOfValues = 10_000;
+        CustomDynamicArray<int> array = new CustomDynamicArray<int>();
+
+        for (int value = 0; value < numberOfValues; value++)
+        {
+            array.Add(value);
+        }
+
+        // Act
+        TimeSpan elapsed = Measure(() =>
+        {
+            while (array.Count > 0)
+            {
+                array.RemoveLast();
+            }
+        });
+
+        // Assert
+        Assert.Equal(0, array.Count);
+        Assert.Equal(8, array.Capacity);
+        _output.WriteLine($"CustomDynamicArray RemoveLast {numberOfValues} values: {elapsed.TotalMilliseconds:F3} ms");
+    }
+
     private static CustomDynamicArray<T> CreateArray<T>(params T[] values)
     {
         CustomDynamicArray<T> array = new CustomDynamicArray<T>();
@@ -395,5 +561,15 @@ public class CustomDynamicArrayTests
             BindingFlags.Instance | BindingFlags.NonPublic);
 
         return (T[])field!.GetValue(array)!;
+    }
+
+    private static TimeSpan Measure(Action act)
+    {
+        Stopwatch stopwatch = Stopwatch.StartNew();
+
+        act();
+
+        stopwatch.Stop();
+        return stopwatch.Elapsed;
     }
 }

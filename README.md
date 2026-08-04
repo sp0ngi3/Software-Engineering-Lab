@@ -14,6 +14,7 @@ The purpose of this repository is to learn by building things from scratch, test
 software-engineering-lab/
 |-- src/
 |   |-- DataStructures/
+|   |   |-- Algorithms/
 |   |   |-- CustomDynamicArray/
 |   |   `-- SinglyLinkedList/
 |   `-- Playground/
@@ -31,6 +32,7 @@ Contains implementations of data structures written for learning purposes. The g
 
 Current notes:
 
+- [Array algorithms](src/DataStructures/Algorithms/Arrays/README.md)
 - [Custom dynamic array](src/DataStructures/CustomDynamicArray/README.md)
 - [Custom linked list](src/DataStructures/SinglyLinkedList/README.md)
 
