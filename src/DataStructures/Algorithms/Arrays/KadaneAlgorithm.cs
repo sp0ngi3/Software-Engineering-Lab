@@ -1,4 +1,4 @@
-using DataStructures.CustomDynamicArray;
+using DataStructures.CustomDynamicArrays;
 
 namespace DataStructures.Algorithms.Arrays
 {

@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
-using DataStructures.CustomDynamicArray;
+using DataStructures.CustomDynamicArrays;
 using Xunit.Abstractions;
 
 namespace DataStructures.Tests.CustomDynamicArray;

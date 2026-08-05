@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace DataStructures.CustomDynamicArray
+namespace DataStructures.CustomDynamicArrays
 {
     /// <summary>
     /// Represents a custom dynamic array implementation.

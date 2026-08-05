@@ -1,5 +1,6 @@
 using DataStructures.Algorithms.Arrays;
-using DataStructures.CustomDynamicArray;
+using DataStructures.CustomDynamicArrays;
+using DataStructures.CustomStack;
 using DataStructures.SinglyLinkedList;
 using System.Diagnostics;
 
@@ -7,7 +8,7 @@ Console.WriteLine("Software Engineering Lab");
 Console.WriteLine("Debug playground for data structures and algorithms.");
 Console.WriteLine();
 
-RunCustomDynamicArray();
+RunCustomStack();
 
 static void RunLinkedList()
 {
@@ -106,6 +107,59 @@ static void RunCustomDynamicArray()
     Console.WriteLine($"Values after shrinking: {string.Join(", ", valuesAfterShrinking)}");
     Console.WriteLine($"Kadane max subarray sum: {maxSubarraySum}");
     Console.WriteLine($"Kadane max subarray range: {maxSubarrayRange[0]} - {maxSubarrayRange[1]}");
+
+    Console.ReadLine();
+    if (Debugger.IsAttached)
+    {
+        Debugger.Break();
+    }
+}
+
+static void RunCustomStack()
+{
+    Console.WriteLine("Custom Stack");
+
+    CustomStack<int> stack = new();
+
+    bool isEmptyBeforePushing = stack.IsEmpty();
+    int sizeBeforePushing = stack.Size();
+
+    stack.Push(10);
+    stack.Push(20);
+    stack.Push(30);
+
+    int countAfterPushing = stack.Count;
+    int sizeAfterPushing = stack.Size();
+    bool isEmptyAfterPushing = stack.IsEmpty();
+    int topValueBeforePopping = stack.Peek();
+
+    int firstPoppedValue = stack.Pop();
+    int topValueAfterFirstPop = stack.Peek();
+
+    stack.Push(40);
+
+    int topValueAfterPushingAgain = stack.Peek();
+    int secondPoppedValue = stack.Pop();
+    int thirdPoppedValue = stack.Pop();
+    int fourthPoppedValue = stack.Pop();
+
+    bool isEmptyAfterPoppingEverything = stack.IsEmpty();
+    int sizeAfterPoppingEverything = stack.Size();
+
+    Console.WriteLine($"Is empty before pushing: {isEmptyBeforePushing}");
+    Console.WriteLine($"Size before pushing: {sizeBeforePushing}");
+    Console.WriteLine($"Count after pushing: {countAfterPushing}");
+    Console.WriteLine($"Size after pushing: {sizeAfterPushing}");
+    Console.WriteLine($"Is empty after pushing: {isEmptyAfterPushing}");
+    Console.WriteLine($"Top value before popping: {topValueBeforePopping}");
+    Console.WriteLine($"First popped value: {firstPoppedValue}");
+    Console.WriteLine($"Top value after first pop: {topValueAfterFirstPop}");
+    Console.WriteLine($"Top value after pushing again: {topValueAfterPushingAgain}");
+    Console.WriteLine($"Second popped value: {secondPoppedValue}");
+    Console.WriteLine($"Third popped value: {thirdPoppedValue}");
+    Console.WriteLine($"Fourth popped value: {fourthPoppedValue}");
+    Console.WriteLine($"Is empty after popping everything: {isEmptyAfterPoppingEverything}");
+    Console.WriteLine($"Size after popping everything: {sizeAfterPoppingEverything}");
 
     Console.ReadLine();
     if (Debugger.IsAttached)

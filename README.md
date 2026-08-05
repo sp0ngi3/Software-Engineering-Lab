@@ -15,7 +15,8 @@ software-engineering-lab/
 |-- src/
 |   |-- DataStructures/
 |   |   |-- Algorithms/
-|   |   |-- CustomDynamicArray/
+|   |   |-- CustomDynamicArrays/
+|   |   |-- CustomStack/
 |   |   `-- SinglyLinkedList/
 |   `-- Playground/
 |-- tests/
@@ -33,7 +34,8 @@ Contains implementations of data structures written for learning purposes. The g
 Current notes:
 
 - [Array algorithms](src/DataStructures/Algorithms/Arrays/README.md)
-- [Custom dynamic array](src/DataStructures/CustomDynamicArray/README.md)
+- [Custom dynamic array](src/DataStructures/CustomDynamicArrays/README.md)
+- [Custom stack](src/DataStructures/CustomStack/README.md)
 - [Custom linked list](src/DataStructures/SinglyLinkedList/README.md)
 
 Each exercise can include implementation notes, edge cases, complexity analysis, and tests.
