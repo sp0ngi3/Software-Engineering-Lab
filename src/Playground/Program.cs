@@ -8,7 +8,7 @@ Console.WriteLine("Software Engineering Lab");
 Console.WriteLine("Debug playground for data structures and algorithms.");
 Console.WriteLine();
 
-RunCustomStack();
+RunPrefixSums();
 
 static void RunLinkedList()
 {
@@ -160,6 +160,124 @@ static void RunCustomStack()
     Console.WriteLine($"Fourth popped value: {fourthPoppedValue}");
     Console.WriteLine($"Is empty after popping everything: {isEmptyAfterPoppingEverything}");
     Console.WriteLine($"Size after popping everything: {sizeAfterPoppingEverything}");
+
+    Console.ReadLine();
+    if (Debugger.IsAttached)
+    {
+        Debugger.Break();
+    }
+}
+
+static void RunSlidingWindowVariableSize()
+{
+    Console.WriteLine("Variable Size Sliding Window");
+
+    int[] sameValueInput = { 4, 2, 2, 3, 3, 3 };
+    int longestSameValueLength = SlidingWindowVariableSize.LongestSubarrayWithSameValue(sameValueInput);
+
+    int[] targetInput = { 2, 3, 1, 2, 4, 3 };
+    int shortestTargetLength = SlidingWindowVariableSize.ShortestSubarrayWithSumAtLeastTarget(targetInput, 7);
+
+    CustomDynamicArray<int> dynamicArrayInput = new();
+    dynamicArrayInput.Add(4);
+    dynamicArrayInput.Add(2);
+    dynamicArrayInput.Add(2);
+    dynamicArrayInput.Add(3);
+    dynamicArrayInput.Add(3);
+    dynamicArrayInput.Add(3);
+
+    int longestSameValueLengthFromDynamicArray =
+        SlidingWindowVariableSize.LongestSubarrayWithSameValue(dynamicArrayInput);
+
+    Console.WriteLine($"Longest same-value subarray length: {longestSameValueLength}");
+    Console.WriteLine($"Shortest subarray length with sum >= 7: {shortestTargetLength}");
+    Console.WriteLine($"Longest same-value length from custom dynamic array: {longestSameValueLengthFromDynamicArray}");
+
+    Console.ReadLine();
+    if (Debugger.IsAttached)
+    {
+        Debugger.Break();
+    }
+}
+
+static void RunTwoPointers()
+{
+    Console.WriteLine("Two Pointers");
+
+    string palindromeWord = "racecar";
+    bool isWordPalindrome = TwoPointers.IsPalindrome(palindromeWord);
+
+    string notPalindromeWord = "learning";
+    bool isSecondWordPalindrome = TwoPointers.IsPalindrome(notPalindromeWord);
+
+    int[] palindromeNumbers = { 1, 2, 3, 2, 1 };
+    bool areNumbersPalindrome = TwoPointers.IsPalindrome(palindromeNumbers);
+
+    int[] sortedNumbers = { 2, 7, 11, 15 };
+    int[]? targetSumIndexes = TwoPointers.TargetSum(sortedNumbers, 9);
+
+    CustomDynamicArray<int> dynamicArrayInput = new();
+    dynamicArrayInput.Add(1);
+    dynamicArrayInput.Add(3);
+    dynamicArrayInput.Add(4);
+    dynamicArrayInput.Add(5);
+    dynamicArrayInput.Add(7);
+    dynamicArrayInput.Add(11);
+
+    int[]? targetSumIndexesFromDynamicArray = TwoPointers.TargetSum(dynamicArrayInput, 10);
+
+    Console.WriteLine($"Is '{palindromeWord}' a palindrome: {isWordPalindrome}");
+    Console.WriteLine($"Is '{notPalindromeWord}' a palindrome: {isSecondWordPalindrome}");
+    Console.WriteLine($"Are numbers palindrome: {areNumbersPalindrome}");
+    Console.WriteLine($"Target sum indexes: {FormatIndexes(targetSumIndexes)}");
+    Console.WriteLine($"Target sum indexes from custom dynamic array: {FormatIndexes(targetSumIndexesFromDynamicArray)}");
+
+    Console.ReadLine();
+    if (Debugger.IsAttached)
+    {
+        Debugger.Break();
+    }
+}
+
+static string FormatIndexes(int[]? indexes)
+{
+    if (indexes is null)
+    {
+        return "not found";
+    }
+
+    return $"{indexes[0]}, {indexes[1]}";
+}
+
+static void RunPrefixSums()
+{
+    Console.WriteLine("Prefix Sums");
+
+    int[] nums = { 2, -1, 3, 5 };
+    int[] prefixSums = PrefixSums.BuildPrefixSum(nums);
+    int rangeSum = PrefixSums.RangeSumFromPrefixSum(prefixSums, 1, 3);
+
+    int[] multiplicationInput = { 2, 3, 4 };
+    int[] prefixProducts = PrefixSums.BuildPrefixProduct(multiplicationInput);
+    int rangeProduct = PrefixSums.RangeProduct(new[] { 2, 3, 4, 5 }, 1, 3);
+
+    CustomDynamicArray<int> dynamicArrayInput = new();
+    dynamicArrayInput.Add(3);
+    dynamicArrayInput.Add(-2);
+    dynamicArrayInput.Add(5);
+    dynamicArrayInput.Add(1);
+    dynamicArrayInput.Add(6);
+
+    int[] prefixSumsFromDynamicArray = PrefixSums.BuildPrefixSum(dynamicArrayInput);
+    int rangeSumFromDynamicArray = PrefixSums.RangeSumFromPrefixSum(prefixSumsFromDynamicArray, 1, 3);
+
+    Console.WriteLine($"Input: {string.Join(", ", nums)}");
+    Console.WriteLine($"Prefix sums: {string.Join(", ", prefixSums)}");
+    Console.WriteLine($"Range sum from index 1 to 3: {rangeSum}");
+    Console.WriteLine($"Prefix products: {string.Join(", ", prefixProducts)}");
+    Console.WriteLine($"Range product from index 1 to 3: {rangeProduct}");
+    Console.WriteLine($"Prefix sums from custom dynamic array: {string.Join(", ", prefixSumsFromDynamicArray)}");
+    Console.WriteLine($"Range sum from custom dynamic array prefix sums: {rangeSumFromDynamicArray}");
 
     Console.ReadLine();
     if (Debugger.IsAttached)
