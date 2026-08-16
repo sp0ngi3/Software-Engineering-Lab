@@ -1,5 +1,6 @@
 using DataStructures.Algorithms.Arrays;
 using DataStructures.CustomDynamicArrays;
+using DataStructures.CustomQueue;
 using DataStructures.CustomStack;
 using DataStructures.SinglyLinkedList;
 using System.Diagnostics;
@@ -8,7 +9,7 @@ Console.WriteLine("Software Engineering Lab");
 Console.WriteLine("Debug playground for data structures and algorithms.");
 Console.WriteLine();
 
-RunPrefixSums();
+RunCustomQueue();
 
 static void RunLinkedList()
 {
@@ -160,6 +161,61 @@ static void RunCustomStack()
     Console.WriteLine($"Fourth popped value: {fourthPoppedValue}");
     Console.WriteLine($"Is empty after popping everything: {isEmptyAfterPoppingEverything}");
     Console.WriteLine($"Size after popping everything: {sizeAfterPoppingEverything}");
+
+    Console.ReadLine();
+    if (Debugger.IsAttached)
+    {
+        Debugger.Break();
+    }
+}
+
+static void RunCustomQueue()
+{
+    Console.WriteLine("Custom Queue");
+
+    CustomQueue<int> queue = new();
+
+    bool isEmptyBeforeEnqueue = queue.IsEmpty();
+    int sizeBeforeEnqueue = queue.Size();
+
+    queue.Enqueue(10);
+    queue.Enqueue(20);
+    queue.Enqueue(30);
+
+    queue.Print();
+
+    int countAfterEnqueue = queue.Count;
+    int sizeAfterEnqueue = queue.Size();
+    bool isEmptyAfterEnqueue = queue.IsEmpty();
+    int frontValueBeforeDequeue = queue.Peek();
+
+    int firstDequeuedValue = queue.Dequeue();
+    int frontValueAfterFirstDequeue = queue.Peek();
+
+    queue.Enqueue(40);
+
+    int frontValueAfterEnqueueAgain = queue.Peek();
+    int secondDequeuedValue = queue.Dequeue();
+    int thirdDequeuedValue = queue.Dequeue();
+    int fourthDequeuedValue = queue.Dequeue();
+
+    bool isEmptyAfterDequeuingEverything = queue.IsEmpty();
+    int sizeAfterDequeuingEverything = queue.Size();
+
+    Console.WriteLine($"Is empty before enqueue: {isEmptyBeforeEnqueue}");
+    Console.WriteLine($"Size before enqueue: {sizeBeforeEnqueue}");
+    Console.WriteLine($"Count after enqueue: {countAfterEnqueue}");
+    Console.WriteLine($"Size after enqueue: {sizeAfterEnqueue}");
+    Console.WriteLine($"Is empty after enqueue: {isEmptyAfterEnqueue}");
+    Console.WriteLine($"Front value before dequeue: {frontValueBeforeDequeue}");
+    Console.WriteLine($"First dequeued value: {firstDequeuedValue}");
+    Console.WriteLine($"Front value after first dequeue: {frontValueAfterFirstDequeue}");
+    Console.WriteLine($"Front value after enqueue again: {frontValueAfterEnqueueAgain}");
+    Console.WriteLine($"Second dequeued value: {secondDequeuedValue}");
+    Console.WriteLine($"Third dequeued value: {thirdDequeuedValue}");
+    Console.WriteLine($"Fourth dequeued value: {fourthDequeuedValue}");
+    Console.WriteLine($"Is empty after dequeuing everything: {isEmptyAfterDequeuingEverything}");
+    Console.WriteLine($"Size after dequeuing everything: {sizeAfterDequeuingEverything}");
 
     Console.ReadLine();
     if (Debugger.IsAttached)

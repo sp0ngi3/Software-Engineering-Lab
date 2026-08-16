@@ -16,6 +16,7 @@ software-engineering-lab/
 |   |-- DataStructures/
 |   |   |-- Algorithms/
 |   |   |-- CustomDynamicArrays/
+|   |   |-- CustomQueue/
 |   |   |-- CustomStack/
 |   |   `-- SinglyLinkedList/
 |   `-- Playground/
@@ -35,6 +36,7 @@ Current notes:
 
 - [Array algorithms](src/DataStructures/Algorithms/Arrays/README.md)
 - [Custom dynamic array](src/DataStructures/CustomDynamicArrays/README.md)
+- [Custom queue](src/DataStructures/CustomQueue/README.md)
 - [Custom stack](src/DataStructures/CustomStack/README.md)
 - [Custom linked list](src/DataStructures/SinglyLinkedList/README.md)
 
