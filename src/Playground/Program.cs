@@ -1,4 +1,5 @@
 using DataStructures.Algorithms.Arrays;
+using DataStructures.Algorithms.Recursion;
 using DataStructures.CustomDynamicArrays;
 using DataStructures.CustomQueue;
 using DataStructures.CustomStack;
@@ -9,7 +10,7 @@ Console.WriteLine("Software Engineering Lab");
 Console.WriteLine("Debug playground for data structures and algorithms.");
 Console.WriteLine();
 
-RunCustomQueue();
+RunRecursionExamples();
 
 static void RunLinkedList()
 {
@@ -216,6 +217,30 @@ static void RunCustomQueue()
     Console.WriteLine($"Fourth dequeued value: {fourthDequeuedValue}");
     Console.WriteLine($"Is empty after dequeuing everything: {isEmptyAfterDequeuingEverything}");
     Console.WriteLine($"Size after dequeuing everything: {sizeAfterDequeuingEverything}");
+
+    Console.ReadLine();
+    if (Debugger.IsAttached)
+    {
+        Debugger.Break();
+    }
+}
+
+static void RunRecursionExamples()
+{
+    Console.WriteLine("Recursion");
+
+    int factorialInput = 5;
+    int factorialRecursiveResult = RecursionExamples.FactorialRecursive(factorialInput);
+    int factorialIterativeResult = RecursionExamples.FactorialIterative(factorialInput);
+
+    int fibonacciInput = 10;
+    int fibonacciRecursiveResult = RecursionExamples.FibonacciRecursive(fibonacciInput);
+    int fibonacciIterativeResult = RecursionExamples.FibonacciIterative(fibonacciInput);
+
+    Console.WriteLine($"Factorial recursive {factorialInput}!: {factorialRecursiveResult}");
+    Console.WriteLine($"Factorial iterative {factorialInput}!: {factorialIterativeResult}");
+    Console.WriteLine($"Fibonacci recursive F({fibonacciInput}): {fibonacciRecursiveResult}");
+    Console.WriteLine($"Fibonacci iterative F({fibonacciInput}): {fibonacciIterativeResult}");
 
     Console.ReadLine();
     if (Debugger.IsAttached)
