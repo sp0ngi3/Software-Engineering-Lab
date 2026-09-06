@@ -1,3 +1,4 @@
+using DataStructures.CustomQueue;
 using System.Text;
 
 namespace DataStructures.CustomBinarySearchTree
@@ -222,6 +223,160 @@ namespace DataStructures.CustomBinarySearchTree
             Console.Write(ToPrettyString(root));
         }
 
+        /// <summary>
+        /// Returns values from the tree by using inorder depth-first search.
+        /// For a binary search tree, this returns values in sorted order.
+        /// Runs in O(n) time complexity because every node is visited once.
+        /// Runs in O(h) space complexity because recursive calls use the call stack,
+        /// where h is the height of the tree.
+        /// </summary>
+        /// <param name="root">The root node where traversal starts.</param>
+        /// <typeparam name="T">The type of value stored in the tree.</typeparam>
+        /// <returns>The values visited in left, root, right order.</returns>
+        public static T[] InOrderTraversal<T>(CustomBinarySearchTreeNode<T>? root)
+        {
+            /*
+             * Algorithm:
+             * 1. Create a list for visited values.
+             * 2. Visit the left subtree first.
+             * 3. Visit the current node.
+             * 4. Visit the right subtree last.
+             * 5. Return all visited values as an array.
+             */
+
+            // Step 1: Store values in the order in which DFS visits them.
+            List<T> values = new List<T>();
+
+            // Step 2-4: Start recursive inorder traversal from the root.
+            InOrder(root, values);
+
+            // Step 5: Return a simple array so the result is easy to inspect and test.
+            return values.ToArray();
+        }
+
+        /// <summary>
+        /// Returns values from the tree by using preorder depth-first search.
+        /// Runs in O(n) time complexity because every node is visited once.
+        /// Runs in O(h) space complexity because recursive calls use the call stack,
+        /// where h is the height of the tree.
+        /// </summary>
+        /// <param name="root">The root node where traversal starts.</param>
+        /// <typeparam name="T">The type of value stored in the tree.</typeparam>
+        /// <returns>The values visited in root, left, right order.</returns>
+        public static T[] PreOrderTraversal<T>(CustomBinarySearchTreeNode<T>? root)
+        {
+            /*
+             * Algorithm:
+             * 1. Create a list for visited values.
+             * 2. Visit the current node first.
+             * 3. Visit the left subtree.
+             * 4. Visit the right subtree last.
+             * 5. Return all visited values as an array.
+             */
+
+            // Step 1: Store values in the order in which DFS visits them.
+            List<T> values = new List<T>();
+
+            // Step 2-4: Start recursive preorder traversal from the root.
+            PreOrder(root, values);
+
+            // Step 5: Return a simple array so the result is easy to inspect and test.
+            return values.ToArray();
+        }
+
+        /// <summary>
+        /// Returns values from the tree by using postorder depth-first search.
+        /// Runs in O(n) time complexity because every node is visited once.
+        /// Runs in O(h) space complexity because recursive calls use the call stack,
+        /// where h is the height of the tree.
+        /// </summary>
+        /// <param name="root">The root node where traversal starts.</param>
+        /// <typeparam name="T">The type of value stored in the tree.</typeparam>
+        /// <returns>The values visited in left, right, root order.</returns>
+        public static T[] PostOrderTraversal<T>(CustomBinarySearchTreeNode<T>? root)
+        {
+            /*
+             * Algorithm:
+             * 1. Create a list for visited values.
+             * 2. Visit the left subtree first.
+             * 3. Visit the right subtree.
+             * 4. Visit the current node last.
+             * 5. Return all visited values as an array.
+             */
+
+            // Step 1: Store values in the order in which DFS visits them.
+            List<T> values = new List<T>();
+
+            // Step 2-4: Start recursive postorder traversal from the root.
+            PostOrder(root, values);
+
+            // Step 5: Return a simple array so the result is easy to inspect and test.
+            return values.ToArray();
+        }
+
+        /// <summary>
+        /// Returns values from the tree by using breadth-first search.
+        /// This is also called level-order traversal for trees.
+        /// Runs in O(n) time complexity because every node is visited once.
+        /// Runs in O(n) space complexity because the queue can store many nodes from one level.
+        /// </summary>
+        /// <param name="root">The root node where traversal starts.</param>
+        /// <typeparam name="T">The type of value stored in the tree.</typeparam>
+        /// <returns>The values visited level by level from left to right.</returns>
+        public static T[] BreadthFirstTraversal<T>(CustomBinarySearchTreeNode<T>? root)
+        {
+            /*
+             * Algorithm:
+             * 1. Create a list for visited values.
+             * 2. If the root is null, return an empty array.
+             * 3. Add the root node to the queue.
+             * 4. While the queue is not empty, remove the front node.
+             * 5. Visit the removed node.
+             * 6. Add the left child to the queue if it exists.
+             * 7. Add the right child to the queue if it exists.
+             * 8. Return all visited values as an array.
+             */
+
+            // Step 1: Store values in the order in which BFS visits them.
+            List<T> values = new List<T>();
+
+            // Step 2: Empty tree has no values to visit.
+            if (root is null)
+            {
+                return values.ToArray();
+            }
+
+            // Step 3: BFS uses a queue because we want to process nodes level by level.
+            CustomQueue<CustomBinarySearchTreeNode<T>> queue =
+                new CustomQueue<CustomBinarySearchTreeNode<T>>();
+
+            queue.Enqueue(root);
+
+            // Step 4: Keep going until all queued nodes are processed.
+            while (!queue.IsEmpty())
+            {
+                CustomBinarySearchTreeNode<T> current = queue.Dequeue();
+
+                // Step 5: Visit the current node.
+                values.Add(current.Value);
+
+                // Step 6: Add the left child first, so each level is read from left to right.
+                if (current.Left is not null)
+                {
+                    queue.Enqueue(current.Left);
+                }
+
+                // Step 7: Add the right child after the left child.
+                if (current.Right is not null)
+                {
+                    queue.Enqueue(current.Right);
+                }
+            }
+
+            // Step 8: Return a simple array so the result is easy to inspect and test.
+            return values.ToArray();
+        }
+
         private static void BuildPrettyString<T>(
             CustomBinarySearchTreeNode<T> node,
             StringBuilder builder,
@@ -283,6 +438,54 @@ namespace DataStructures.CustomBinarySearchTree
                     "R",
                     isLastChild: true);
             }
+        }
+
+        private static void InOrder<T>(
+            CustomBinarySearchTreeNode<T>? root,
+            List<T> values)
+        {
+            // Base case: null means there is no node to visit on this path.
+            if (root is null)
+            {
+                return;
+            }
+
+            // Inorder means left first, current node second, right last.
+            InOrder(root.Left, values);
+            values.Add(root.Value);
+            InOrder(root.Right, values);
+        }
+
+        private static void PreOrder<T>(
+            CustomBinarySearchTreeNode<T>? root,
+            List<T> values)
+        {
+            // Base case: null means there is no node to visit on this path.
+            if (root is null)
+            {
+                return;
+            }
+
+            // Preorder means current node first, then left, then right.
+            values.Add(root.Value);
+            PreOrder(root.Left, values);
+            PreOrder(root.Right, values);
+        }
+
+        private static void PostOrder<T>(
+            CustomBinarySearchTreeNode<T>? root,
+            List<T> values)
+        {
+            // Base case: null means there is no node to visit on this path.
+            if (root is null)
+            {
+                return;
+            }
+
+            // Postorder means left first, right second, current node last.
+            PostOrder(root.Left, values);
+            PostOrder(root.Right, values);
+            values.Add(root.Value);
         }
     }
 }

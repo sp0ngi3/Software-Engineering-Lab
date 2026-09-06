@@ -287,6 +287,114 @@ public class CustomBinarySearchTreeOperationsTests
         Assert.Contains("`-- R: 15", writer.ToString());
     }
 
+    [Fact]
+    public void InOrderTraversal_WhenTreeHasValues_ReturnsValuesInSortedOrder()
+    {
+        // Arrange
+        CustomBinarySearchTreeNode<int>? root = CreateTestTree();
+
+        // Act
+        int[] values = CustomBinarySearchTreeOperations.InOrderTraversal(root);
+
+        // Assert
+        Assert.Equal(new[] { 3, 5, 7, 10, 15, 20 }, values);
+    }
+
+    [Fact]
+    public void PreOrderTraversal_WhenTreeHasValues_ReturnsRootBeforeChildren()
+    {
+        // Arrange
+        CustomBinarySearchTreeNode<int>? root = CreateTestTree();
+
+        // Act
+        int[] values = CustomBinarySearchTreeOperations.PreOrderTraversal(root);
+
+        // Assert
+        Assert.Equal(new[] { 10, 5, 3, 7, 15, 20 }, values);
+    }
+
+    [Fact]
+    public void PostOrderTraversal_WhenTreeHasValues_ReturnsRootAfterChildren()
+    {
+        // Arrange
+        CustomBinarySearchTreeNode<int>? root = CreateTestTree();
+
+        // Act
+        int[] values = CustomBinarySearchTreeOperations.PostOrderTraversal(root);
+
+        // Assert
+        Assert.Equal(new[] { 3, 7, 5, 20, 15, 10 }, values);
+    }
+
+    [Fact]
+    public void BreadthFirstTraversal_WhenTreeHasValues_ReturnsValuesLevelByLevel()
+    {
+        // Arrange
+        CustomBinarySearchTreeNode<int>? root = CreateTestTree();
+
+        // Act
+        int[] values = CustomBinarySearchTreeOperations.BreadthFirstTraversal(root);
+
+        // Assert
+        Assert.Equal(new[] { 10, 5, 15, 3, 7, 20 }, values);
+    }
+
+    [Fact]
+    public void TraversalMethods_WhenTreeIsEmpty_ReturnEmptyArrays()
+    {
+        // Arrange
+        CustomBinarySearchTreeNode<int>? root = null;
+
+        // Act
+        int[] inOrderValues = CustomBinarySearchTreeOperations.InOrderTraversal(root);
+        int[] preOrderValues = CustomBinarySearchTreeOperations.PreOrderTraversal(root);
+        int[] postOrderValues = CustomBinarySearchTreeOperations.PostOrderTraversal(root);
+        int[] breadthFirstValues = CustomBinarySearchTreeOperations.BreadthFirstTraversal(root);
+
+        // Assert
+        Assert.Empty(inOrderValues);
+        Assert.Empty(preOrderValues);
+        Assert.Empty(postOrderValues);
+        Assert.Empty(breadthFirstValues);
+    }
+
+    [Fact]
+    public void TraversalMethods_WhenUsingStrings_ReturnValuesInExpectedOrder()
+    {
+        // Arrange
+        CustomBinarySearchTreeNode<string>? root = null;
+        root = CustomBinarySearchTreeOperations.Insert(root, "m");
+        root = CustomBinarySearchTreeOperations.Insert(root, "c");
+        root = CustomBinarySearchTreeOperations.Insert(root, "t");
+
+        // Act
+        string[] inOrderValues = CustomBinarySearchTreeOperations.InOrderTraversal(root);
+        string[] breadthFirstValues = CustomBinarySearchTreeOperations.BreadthFirstTraversal(root);
+
+        // Assert
+        Assert.Equal(new[] { "c", "m", "t" }, inOrderValues);
+        Assert.Equal(new[] { "m", "c", "t" }, breadthFirstValues);
+    }
+
+    [Fact]
+    public void LearningContract_WhenTraversalsAreReimplemented_ShouldPreserveCoreBehavior()
+    {
+        // Arrange
+        CustomBinarySearchTreeNode<int>? root = CreateTestTree();
+
+        // Act
+        int[] inOrderValues = CustomBinarySearchTreeOperations.InOrderTraversal(root);
+        int[] preOrderValues = CustomBinarySearchTreeOperations.PreOrderTraversal(root);
+        int[] postOrderValues = CustomBinarySearchTreeOperations.PostOrderTraversal(root);
+        int[] breadthFirstValues = CustomBinarySearchTreeOperations.BreadthFirstTraversal(root);
+
+        // Assert
+        Assert.Equal(new[] { 3, 5, 7, 10, 15, 20 }, inOrderValues);
+        Assert.Equal(new[] { 10, 5, 3, 7, 15, 20 }, preOrderValues);
+        Assert.Equal(new[] { 3, 7, 5, 20, 15, 10 }, postOrderValues);
+        Assert.Equal(new[] { 10, 5, 15, 3, 7, 20 }, breadthFirstValues);
+    }
+
     private static CustomBinarySearchTreeNode<int> CreateTestTree()
     {
         CustomBinarySearchTreeNode<int>? root = null;

@@ -271,6 +271,10 @@ static void RunCustomBinarySearchTree()
     bool foundRightValue = CustomBinarySearchTreeSearch.SearchNode(root, 20);
     bool foundMissingValue = CustomBinarySearchTreeSearch.SearchNode(root, 99);
     CustomBinarySearchTreeNode<int>? minNode = CustomBinarySearchTreeOperations.MinValueNode(root);
+    int[] inOrderValues = CustomBinarySearchTreeOperations.InOrderTraversal(root);
+    int[] preOrderValues = CustomBinarySearchTreeOperations.PreOrderTraversal(root);
+    int[] postOrderValues = CustomBinarySearchTreeOperations.PostOrderTraversal(root);
+    int[] breadthFirstValues = CustomBinarySearchTreeOperations.BreadthFirstTraversal(root);
 
     root = CustomBinarySearchTreeOperations.Remove(root, 7);
     bool foundRemovedValue = CustomBinarySearchTreeSearch.SearchNode(root, 7);
@@ -289,6 +293,10 @@ static void RunCustomBinarySearchTree()
     Console.WriteLine($"Found right value 20: {foundRightValue}");
     Console.WriteLine($"Found missing value 99: {foundMissingValue}");
     Console.WriteLine($"Minimum value node: {minNode?.Value}");
+    Console.WriteLine($"Inorder DFS: {string.Join(", ", inOrderValues)}");
+    Console.WriteLine($"Preorder DFS: {string.Join(", ", preOrderValues)}");
+    Console.WriteLine($"Postorder DFS: {string.Join(", ", postOrderValues)}");
+    Console.WriteLine($"Breadth-first search: {string.Join(", ", breadthFirstValues)}");
     Console.WriteLine($"Found removed value 7: {foundRemovedValue}");
     Console.WriteLine($"Root value after removing old root 10: {rootValueAfterRemovingOldRoot}");
 

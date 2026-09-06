@@ -130,6 +130,101 @@ Root: 10
 
 This is useful while debugging because it shows the real shape of the tree, not only the sorted order of values.
 
+## Depth-First Search
+
+Depth-first search means we go as deep as possible before going back to another branch.
+
+In trees, DFS is usually written recursively.
+
+There are three common DFS orders:
+
+- Inorder
+- Preorder
+- Postorder
+
+All three visit every node, but they visit the current node at a different moment.
+
+### Inorder Traversal
+
+Inorder means:
+
+```text
+left -> root -> right
+```
+
+For a binary search tree, inorder traversal returns values in sorted order.
+
+Example:
+
+```text
+        10
+       /  \
+      5    15
+     / \     \
+    3   7     20
+```
+
+Inorder result:
+
+```text
+[3, 5, 7, 10, 15, 20]
+```
+
+### Preorder Traversal
+
+Preorder means:
+
+```text
+root -> left -> right
+```
+
+Preorder visits the current node before its children.
+
+Preorder result:
+
+```text
+[10, 5, 3, 7, 15, 20]
+```
+
+### Postorder Traversal
+
+Postorder means:
+
+```text
+left -> right -> root
+```
+
+Postorder visits children before the current node.
+
+Postorder result:
+
+```text
+[3, 7, 5, 20, 15, 10]
+```
+
+## Breadth-First Search
+
+Breadth-first search means we visit the tree level by level.
+
+For trees, this is also called level-order traversal.
+
+BFS usually uses a queue.
+
+The idea is:
+
+- Add the root to the queue.
+- Remove the node from the front of the queue.
+- Visit that node.
+- Add its left child if it exists.
+- Add its right child if it exists.
+- Repeat until the queue is empty.
+
+BFS result:
+
+```text
+[10, 5, 15, 3, 7, 20]
+```
+
 ## Complexity
 
 | Operation | Time complexity | Space complexity | Notes |
@@ -143,6 +238,10 @@ This is useful while debugging because it shows the real shape of the tree, not 
 | `MinValueNode(root)` | `O(h)` | `O(1)` | Walks down the left side of the tree. |
 | `ToPrettyString(root)` | `O(n)` | `O(h)` | Visits every node and uses recursion to keep the tree shape. |
 | `Print(root)` | `O(n)` | `O(h)` | Builds the readable tree text and writes it to the console. |
+| `InOrderTraversal(root)` | `O(n)` | `O(h)` | DFS order: left, root, right. |
+| `PreOrderTraversal(root)` | `O(n)` | `O(h)` | DFS order: root, left, right. |
+| `PostOrderTraversal(root)` | `O(n)` | `O(h)` | DFS order: left, right, root. |
+| `BreadthFirstTraversal(root)` | `O(n)` | `O(n)` | Uses a queue and visits values level by level. |
 
 ## Notes For This Implementation
 
@@ -160,12 +259,16 @@ Current public operations:
 - `MinValueNode`
 - `ToPrettyString`
 - `Print`
+- `InOrderTraversal`
+- `PreOrderTraversal`
+- `PostOrderTraversal`
+- `BreadthFirstTraversal`
 
 This is still a small learning version.
 
 Future ideas:
 
 - Add `Contains`
-- Add tree traversal examples
 - Add iterative search
+- Add iterative DFS traversal examples
 - Add a full tree wrapper class with a private root field
