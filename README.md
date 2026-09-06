@@ -15,6 +15,7 @@ software-engineering-lab/
 |-- src/
 |   |-- DataStructures/
 |   |   |-- Algorithms/
+|   |   |-- CustomBinarySearchTree/
 |   |   |-- CustomDynamicArrays/
 |   |   |-- CustomQueue/
 |   |   |-- CustomStack/
@@ -36,6 +37,7 @@ Current notes:
 
 - [Array algorithms](src/DataStructures/Algorithms/Arrays/README.md)
 - [Recursion](src/DataStructures/Algorithms/Recursion/README.md)
+- [Custom binary search tree](src/DataStructures/CustomBinarySearchTree/README.md)
 - [Custom dynamic array](src/DataStructures/CustomDynamicArrays/README.md)
 - [Custom queue](src/DataStructures/CustomQueue/README.md)
 - [Custom stack](src/DataStructures/CustomStack/README.md)

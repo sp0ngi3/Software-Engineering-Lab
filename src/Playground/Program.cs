@@ -1,5 +1,6 @@
 using DataStructures.Algorithms.Arrays;
 using DataStructures.Algorithms.Recursion;
+using DataStructures.CustomBinarySearchTree;
 using DataStructures.CustomDynamicArrays;
 using DataStructures.CustomQueue;
 using DataStructures.CustomStack;
@@ -10,7 +11,7 @@ Console.WriteLine("Software Engineering Lab");
 Console.WriteLine("Debug playground for data structures and algorithms.");
 Console.WriteLine();
 
-RunRecursionExamples();
+RunCustomBinarySearchTree();
 
 static void RunLinkedList()
 {
@@ -241,6 +242,55 @@ static void RunRecursionExamples()
     Console.WriteLine($"Factorial iterative {factorialInput}!: {factorialIterativeResult}");
     Console.WriteLine($"Fibonacci recursive F({fibonacciInput}): {fibonacciRecursiveResult}");
     Console.WriteLine($"Fibonacci iterative F({fibonacciInput}): {fibonacciIterativeResult}");
+
+    Console.ReadLine();
+    if (Debugger.IsAttached)
+    {
+        Debugger.Break();
+    }
+}
+
+static void RunCustomBinarySearchTree()
+{
+    Console.WriteLine("Custom Binary Search Tree");
+
+    CustomBinarySearchTreeNode<int>? root = null;
+
+    root = CustomBinarySearchTreeOperations.Insert(root, 10);
+    root = CustomBinarySearchTreeOperations.Insert(root, 5);
+    root = CustomBinarySearchTreeOperations.Insert(root, 15);
+    root = CustomBinarySearchTreeOperations.Insert(root, 3);
+    root = CustomBinarySearchTreeOperations.Insert(root, 7);
+    root = CustomBinarySearchTreeOperations.Insert(root, 20);
+
+    Console.WriteLine("Tree after insert:");
+    CustomBinarySearchTreeOperations.Print(root);
+
+    bool foundRoot = CustomBinarySearchTreeSearch.SearchNode(root, 10);
+    bool foundLeftValue = CustomBinarySearchTreeSearch.SearchNode(root, 7);
+    bool foundRightValue = CustomBinarySearchTreeSearch.SearchNode(root, 20);
+    bool foundMissingValue = CustomBinarySearchTreeSearch.SearchNode(root, 99);
+    CustomBinarySearchTreeNode<int>? minNode = CustomBinarySearchTreeOperations.MinValueNode(root);
+
+    root = CustomBinarySearchTreeOperations.Remove(root, 7);
+    bool foundRemovedValue = CustomBinarySearchTreeSearch.SearchNode(root, 7);
+
+    Console.WriteLine("Tree after removing 7:");
+    CustomBinarySearchTreeOperations.Print(root);
+
+    root = CustomBinarySearchTreeOperations.Remove(root, 10);
+    int? rootValueAfterRemovingOldRoot = root?.Value;
+
+    Console.WriteLine("Tree after removing old root 10:");
+    CustomBinarySearchTreeOperations.Print(root);
+
+    Console.WriteLine($"Found root value 10: {foundRoot}");
+    Console.WriteLine($"Found left value 7: {foundLeftValue}");
+    Console.WriteLine($"Found right value 20: {foundRightValue}");
+    Console.WriteLine($"Found missing value 99: {foundMissingValue}");
+    Console.WriteLine($"Minimum value node: {minNode?.Value}");
+    Console.WriteLine($"Found removed value 7: {foundRemovedValue}");
+    Console.WriteLine($"Root value after removing old root 10: {rootValueAfterRemovingOldRoot}");
 
     Console.ReadLine();
     if (Debugger.IsAttached)
